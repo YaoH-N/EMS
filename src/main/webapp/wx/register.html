@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>东风快递用户注册</title>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <link href="../css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body style="">
+<section class="aui-flexView">
+    <header class="aui-navBar aui-navBar-fixed">
+        <a href="javascript:;" class="aui-navBar-item">
+
+        </a>
+        <div class="aui-center">
+            <span class="aui-center-title"></span>
+        </div>
+    </header>
+    <section class="aui-scrollView">
+        <div class="aui-ver-head">
+            <img src="images/head.png" alt="">
+        </div>
+        <div class="aui-ver-form"><img class="logo" src="../images/logo1.png">
+            <div class="aui-flex">
+                <div class="aui-flex-box">
+                    <i class="icon icon-phone"></i>
+                    <input id="username" type="text" autocomplete="off" placeholder="用户名">
+                </div>
+            </div>
+            <div class="aui-flex">
+                <div class="aui-flex-box">
+                    <i class="icon icon-phone"></i>
+                    <input id="userphone" type="text" autocomplete="off" placeholder="手机号码">
+                </div>
+            </div>
+            <div class="aui-flex">
+                <div class="aui-flex-box">
+                    <i class="icon icon-phone"></i>
+                    <input id="idcard" type="text" autocomplete="off" placeholder="身份证号码">
+                </div>
+            </div>
+            <div class="aui-flex">
+                <div class="aui-flex-box">
+                    <i class="icon icon-phone"></i>
+                    <input id="password" type="password" autocomplete="off" placeholder="密码">
+                </div>
+            </div>
+            <td class="text-right">选择角色</td><td class="content_right"><input type="radio" name="role" class="status" value="1">用户  <input name="role" type="radio" class="status" value="0">快递员</td>
+
+            <div class="aui-ver-button">
+                <button id="register">注册</button>
+            </div>
+            <div class="aui-cell-box">
+                <label class="cell-right">
+                    <input type="checkbox" value="1" name="checkbox" checked="checked">
+                    <i class="cell-checkbox-icon"></i>
+                    <em>同意快递DF注册协议</em>
+                </label>
+            </div>
+        </div>
+    </section>
+</section>
+</body>
+<script src="../js/jquery.min.js"></script>
+<script src="../layer/layer.js"></script>
+<script type="text/javascript">
+    // 手机号码正则
+    var phone_regex = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
+    // 身份证号(15位、18位数字)正则
+    var idCard_regex = /^[1-9]\d{5}(18|19|([2-3]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+    // 密码正则匹配  以字母开头，长度在6~18之间，只能包含字母、数字和下划线)：
+    var pwd_regex = /^[a-zA-Z]\w{5,17}$/;
+    // 用户名正则：中文、英文、数字包括下划线：
+    var username_regex = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
+    $(function () {
+        $("#register").click(function () {
+            if(!$(":checkbox").prop("checked")){
+                layer.msg("未勾选协议,无法注册!");
+                return;
+            }
+            var userphone = $.trim($('#userphone').val());
+            var username = $.trim($('#username').val());
+            var idcard = $.trim($('#idcard').val());
+            var password = $.trim($('#password').val());
+            var role = $(".status:checked").val();
+            var windowId = layer.load();
+
+            if (!username) {
+                layer.close(windowId);
+                layer.tips("姓名不能为空", "#username",
+                    {tipsMore: true, tips: 1, time: 3000});
+            }else if (!username_regex.test(username)) {
+                layer.close(windowId);
+                layer.tips("请输入正确格式的姓名，要求只能包含：中文、英文、数字包括下划线。", "#username",
+                    {tipsMore: true, tips: 1, time: 5000});
+            } else if (!userphone) {
+                layer.close(windowId);
+                layer.tips("手机号码不能为空", "#userphone",
+                    {tipsMore: true, tips: 1, time: 3000});
+            } else if (!phone_regex.test(userphone)) {
+                layer.close(windowId);
+                layer.tips("请输入正确的手机号码", "#userphone",
+                    {tipsMore: true, tips: 1, time: 3000});
+            } else if (!idcard) {
+                layer.close(windowId);
+                layer.tips("身份证号码不能为空", "#idcard",
+                    {tipsMore: true, tips: 1, time: 3000});
+            } else if (!idCard_regex.test(idcard)) {
+                layer.close(windowId);
+                layer.tips("请输入正确格式的身份证号，要求：18位，注意出生年月日。", "#idcard",
+                    {tipsMore: true, tips: 1, time: 5000});
+            } else if (!password) {
+                layer.close(windowId);
+                layer.tips("密码不能为空", "#password",
+                    {tipsMore: true, tips: 1, time: 3000});
+            } else if (!pwd_regex.test(password)) {
+                layer.close(windowId);
+                layer.tips("要求：以字母开头，长度在6~18之间，只能包含字母、数字和下划线!",
+                    "#password", {tipsMore: true, tips: 1, time: 10000});
+            }else{
+                $.post("/wx/user/register.do", {
+                    role:role,
+                    userphone:userphone,
+                    username:username,
+                    idcard:idcard,
+                    password:password
+                }, function (data) {
+                    // 关闭load窗口
+                    layer.close(windowId);
+                    // 将服务器回复的结果进行显示
+                    layer.msg(data.result);
+                    console.log(data.status)
+                    // 无论是用户还是快递员注册成功都进行页面跳转
+                    if (data.status == 0 || data.status == 1) {
+                        // 跳转到主页
+                        location.assign("index.html");
+                    }
+                }, "JSON");
+            }
+        });
+    });
+</script>
+</html>

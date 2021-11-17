@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nyh.mapper.ExpressMapper">
+  <resultMap id="BaseResultMap" type="com.nyh.pojo.Express">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="number" jdbcType="VARCHAR" property="number" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="userphone" jdbcType="VARCHAR" property="userphone" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="intime" jdbcType="TIMESTAMP" property="intime" />
+    <result column="outtime" jdbcType="TIMESTAMP" property="outtime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="sysPhone" jdbcType="VARCHAR" property="sysPhone" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, number, username, userphone, company, code, intime, outtime, status, sysPhone
+  </sql>
+  <select id="selectByExample" parameterType="com.nyh.pojo.ExpressExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from express
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from express
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from express
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nyh.pojo.ExpressExample">
+    delete from express
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nyh.pojo.Express">
+    insert into express (id, number, username, 
+      userphone, company, code, 
+      intime, outtime, status, 
+      sysPhone)
+    values (#{id,jdbcType=INTEGER}, #{number,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{userphone,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{intime,jdbcType=TIMESTAMP}, #{outtime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{sysPhone,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nyh.pojo.Express">
+    insert into express
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="number != null">
+        number,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="userphone != null">
+        userphone,
+      </if>
+      <if test="company != null">
+        company,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="intime != null">
+        intime,
+      </if>
+      <if test="outtime != null">
+        outtime,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="sysPhone != null">
+        sysPhone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userphone != null">
+        #{userphone,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="intime != null">
+        #{intime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outtime != null">
+        #{outtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sysPhone != null">
+        #{sysPhone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nyh.pojo.ExpressExample" resultType="java.lang.Long">
+    select count(*) from express
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+    <select id="selectByLimit" resultType="com.nyh.pojo.Express">
+      select * from express limit ${offset},${pageNumber}
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+    update express
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.number != null">
+        number = #{record.number,jdbcType=VARCHAR},
+      </if>
+      <if test="record.username != null">
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userphone != null">
+        userphone = #{record.userphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.company != null">
+        company = #{record.company,jdbcType=VARCHAR},
+      </if>
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.intime != null">
+        intime = #{record.intime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.outtime != null">
+        outtime = #{record.outtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.sysPhone != null">
+        sysPhone = #{record.sysPhone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update express
+    set id = #{record.id,jdbcType=INTEGER},
+      number = #{record.number,jdbcType=VARCHAR},
+      username = #{record.username,jdbcType=VARCHAR},
+      userphone = #{record.userphone,jdbcType=VARCHAR},
+      company = #{record.company,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=VARCHAR},
+      intime = #{record.intime,jdbcType=TIMESTAMP},
+      outtime = #{record.outtime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=INTEGER},
+      sysPhone = #{record.sysPhone,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nyh.pojo.Express">
+    update express
+    <set>
+      <if test="number != null">
+        number = #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userphone != null">
+        userphone = #{userphone,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="intime != null">
+        intime = #{intime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outtime != null">
+        outtime = #{outtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sysPhone != null">
+        sysPhone = #{sysPhone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nyh.pojo.Express">
+    update express
+    set number = #{number,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      userphone = #{userphone,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      intime = #{intime,jdbcType=TIMESTAMP},
+      outtime = #{outtime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      sysPhone = #{sysPhone,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
