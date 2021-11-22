@@ -94,7 +94,9 @@
 					window.location.href = "wxUserhome.html";
 					break;
 				case(2):
-					window.location.href = "login.html";
+					$.getJSON("/wx/user/logout.do", null, function (data) {
+						window.location.href= "login.html";
+					});
 					break;
 			}
 		});

@@ -14,7 +14,7 @@
 			<div class="content">
 				<table>	
 					<tr>
-						<td class="text-right">运单号</td><td class="content_right"><input class="input inline-input" placeholder="请输入运单号码" id="number"> <span class="btn btn-info" id="find">立即查找</span></td>
+						<td class="text-right">运单号</td><td class="content_right"><input class="input inline-input" autocomplete="off" placeholder="请输入运单号码" id="number"> <span class="btn btn-info" id="find">立即查找</span></td>
 					</tr>
 				</table>
 			</div>
@@ -26,16 +26,16 @@
 			<div class="content">
 				<table>
 					<tr>
-						<td class="text-right">快递单号</td><td class="content_right"><input class="input" placeholder="请输入姓名"></td>
+						<td class="text-right">快递单号</td><td class="content_right"><input class="input" placeholder="请输入快递单号"></td>
 					</tr>
 					<tr>
-						<td class="text-right">快递公司</td><td class="content_right"><input class="input" placeholder="请输入姓名"></td>
+						<td class="text-right">快递公司</td><td class="content_right"><input class="input" placeholder="请输入快递公司"></td>
 					</tr>
 					<tr>
-						<td class="text-right">收货人姓名</td><td class="content_right"><input class="input" placeholder="请输入姓名"></td>
+						<td class="text-right">收货人姓名</td><td class="content_right"><input class="input" placeholder="请输入收货人姓名"></td>
 					</tr>
 					<tr>
-						<td class="text-right">手机号码</td><td class="content_right"><input class="input" placeholder="请输入姓名"></td>
+						<td class="text-right">手机号码</td><td class="content_right"><input class="input" placeholder="请输入手机号码"></td>
 					</tr>
 					<tr>
 						<td class="text-right">快递状态</td><td class="content_right" id="status">已签收</td>
@@ -67,7 +67,7 @@
 						$("input:eq(1)").val(data.data.number);
 						$("input:eq(2)").val(data.data.company);
 						$("input:eq(3)").val(data.data.username);
-						$("input:eq(4)").val(data.data.userPhone);
+						$("input:eq(4)").val(data.data.userphone);
 						$("input:eq(1),input:eq(2),input:eq(3),input:eq(4)").prop("disabled",true);
 						if(data.data.status == 0){
 							// 未签收

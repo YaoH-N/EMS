@@ -95,7 +95,7 @@
 
         .userType .typeDesc {
             font-size: 12px;
-            color: #888888;
+            color: #1f72ff;
             line-height: 20px;
             text-align: center;
         }
@@ -106,7 +106,7 @@
             text-align: center;
             line-height: 46px;
             border-radius: 23px;
-            background: #888888;
+            background: #1f72ff;
             color: #fff;
             font-weight: bolder;
         }
@@ -218,32 +218,28 @@
         <div class="userInfoIcon">
             <img src="../images/userInfoIcon.png" width="100%">
         </div>
-        <div class="nickName">用户姓名</div>
 
         <form>
-            <!--<input id="PageContext" type="hidden" value="${pageContext.request.contextPath}" />-->
-            <!--<input id="wxCode" type="hidden" value="${wxCode}" />-->
-            <!--<input type="hidden" id="userId" name="userId" value="${sysWxUser.id}">-->
             <div class="userInputCont">
                 <div class="inputTypeCont">
                     <div class="inputTitle">昵称</div>
-                    <input type="text" class="commonInput" name="name" id="username" placeholder="请输入真实姓名..." required>
+                    <input type="text" autocomplete="off" class="commonInput" name="name" id="username" placeholder="请输入真实姓名..." required>
                 </div>
                 <div class="inputTypeCont">
                     <div class="inputTitle">手机</div>
-                    <input type="text" class="commonInputFunc userOldPhone" id="userphone" name="usernum"
+                    <input type="text" autocomplete="off" class="commonInputFunc userOldPhone" id="userphone" name="usernum"
                            placeholder="请输入新手机号码" required>
                     <div class="commonFuncBtnModify userModifyPhone"></div>
                 </div>
                 <div class="inputTypeCont">
                     <div class="inputTitle">密码</div>
-                    <input type="text" class="commonInputFunc userOldPhone" id="password" name="usernum"
+                    <input type="text" autocomplete="off" class="commonInputFunc userOldPhone" id="password" name="usernum"
                            placeholder="请输入新密码" required>
                     <div class="commonFuncBtnModify userModifyPhone"></div>
                 </div>
                 <div class="inputTypeCont">
                     <div class="inputTitle">短信</div>
-                    <input type="text" class="verifiInput" id="code" name="username" placeholder="请输入验证码..." required>
+                    <input type="text" autocomplete="off" class="verifiInput" id="code" name="username" placeholder="请输入验证码..." required>
                     <input type="button" id="btnSendCode1" class="verifiBtn" onclick="sendMessage()" value="发送验证码">
                 </div>
             </div>
@@ -291,6 +287,7 @@
         // 发送短信
         $.getJSON("/wx/user/loginSms.do", {userPhone: userphone}, function (data) {
             console.log(data)
+            alert(data.data)
             layer.close(windowId);
             layer.msg(data.result);
         }, "JSON");
@@ -340,13 +337,15 @@
             }, function (data) {
                 layer.close(windowId);
                 layer.msg(data.result);
+                if(data.status!=-1&&data.status!=-2){
+                    // 将表单输入框中的信息全部清空
+                    $("#username").val("");
+                    $("#userphone").val("");
+                    $("#password").val("");
+                    $("#code").val("");
+                }
             }, "JSON");
 
-            // 将表单输入框中的信息全部清空
-            $("#username").val("");
-            $("#userphone").val("");
-            $("#password").val("");
-            $("#code").val("");
         }
     }
 
@@ -363,7 +362,9 @@
                     window.location.href = "wxUserhome.html";
                     break;
                 case(2):
-                    window.location.href = "login.html";
+                    $.getJSON("/wx/user/logout.do", null, function (data) {
+                        window.location.href= "login.html";
+                    });
                     break;
             }
         });

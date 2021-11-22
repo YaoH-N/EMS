@@ -1,9 +1,8 @@
 package com.nyh.service;
 
 import com.nyh.pojo.Courier;
-import com.nyh.pojo.User;
-import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +30,13 @@ public interface CourierService {
     Courier findByExPhone(String exPhone);
 
     /**
+     * 根据主键查询
+     * @param id
+     * @return
+     */
+    Courier findById(int id);
+
+    /**
      * 根据身份证号，查询快递员信息
      * @param idCard  身份证号
      * @return  查询的快递信息，取件码不存在时返回null
@@ -52,6 +58,13 @@ public interface CourierService {
      * @return 修改的结果 true表示成功，false表示失败
      */
     boolean update(int id,Courier newCourier);
+
+    /**
+     * 快递员登录后更新登录时间
+     * @param userPhone
+     * @param date
+     */
+    void updateLoginTime(String userPhone, Date date);
 
 
     /**

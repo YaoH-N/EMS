@@ -137,12 +137,12 @@
                 <div class="userInputCont">
                     <div class="inputTypeCont">
                         <div class="inputTitle">单号</div>
-                        <input type="text" id="expressId" class="commonInputFunc" name="expressId"
+                        <input type="text" id="expressId" autocomplete="off" class="commonInputFunc" name="expressId"
                                placeholder="请输入快递单号...">
                     </div>
                     <div class="inputTypeCont">
                         <div class="inputTitle">姓名</div>
-                        <input type="text" id="username" class="commonInputFunc" name="phone"
+                        <input type="text" id="username" autocomplete="off" class="commonInputFunc" name="phone"
                                placeholder="请输入收件人姓名">
                     </div>
                     <div class="inputTypeCont">
@@ -286,7 +286,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="submitBtn"><input type="submit" id="insert" value="录入信息"></div>
+                <div class="submitBtn"><input type="button" id="insert" value="录入信息"></div>
             </form>
 
         </div>
@@ -318,7 +318,6 @@
                 layer.close(windowId);
                 layer.msg("请输入正确的手机号码!");
             } else {
-                // 这里使用layer相关方法时会出现一闪而过的情况，具体原因不明
                 $.getJSON("/wx/express/insertExpress.do", {
                     number: number,
                     username: username,
@@ -327,6 +326,13 @@
                 }, function (data) {
                     layer.close(windowId);
                     layer.msg(data.result);
+                    if(data.status == 0){
+                        alert(data.data)
+                        // 如果录入成功，清空表单项
+                        $("#expressId").val("");
+                        $("#username").val("");
+                        $("#phone").val("");
+                    }
                 }, "JSON");
             }
         });
@@ -343,7 +349,9 @@
                     window.location.href = "wxUserhome.html";
                     break;
                 case(2):
-                    window.location.href = "login.html";
+                    $.getJSON("/wx/user/logout.do", null, function (data) {
+                        window.location.href= "login.html";
+                    });
                     break;
             }
         });

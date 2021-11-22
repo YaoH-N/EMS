@@ -73,6 +73,7 @@
 		// 发送短信
         $.getJSON("/wx/user/loginSms.do", {userPhone:phone}, function (data) {
             console.log(data)
+            alert(data.data)
             layer.close(windowId);
             layer.msg(data.result);
         },"JSON");

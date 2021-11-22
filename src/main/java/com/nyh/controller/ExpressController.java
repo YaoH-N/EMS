@@ -9,13 +9,10 @@ import com.nyh.pojo.ResultData;
 import com.nyh.service.ExpressService;
 import com.nyh.utils.DateFormatUtil;
 import com.nyh.utils.JSONUtil;
-import com.nyh.utils.RandomUtil;
 import com.nyh.utils.UserUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +32,12 @@ public class ExpressController {
 
     DateFormatUtil dateFormatUtil = new DateFormatUtil();
 
+    /**
+     * 快件列表数据的获取
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/list.do")
     public String list(HttpServletRequest request,HttpServletResponse response){
         //1.    获取查询数据的起始索引值
@@ -74,7 +77,6 @@ public class ExpressController {
     public String find(HttpServletRequest request,HttpServletResponse response){
         String number = request.getParameter("number"); // 获取请求参数，快递单号
         Express e = expressService.findByNumber(number);
-
         Message msg = new Message();
         if(e == null){
             msg.setStatus(-1);
@@ -89,7 +91,12 @@ public class ExpressController {
         return json;
     }
 
-
+    /**
+     * 快件的录入
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/insert.do")
     public String insert(HttpServletRequest request,HttpServletResponse response){
         // 获取提交的请求参数
@@ -115,10 +122,15 @@ public class ExpressController {
             msg.setResult("快递录入失败，单号重复！");
         }
         String json = JSONUtil.toJSON(msg);
-        System.out.println("msg--->JSON="+json);
         return json;
     }
 
+    /**
+     * 快件的修改
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/update.do")
     public String update(HttpServletRequest request,HttpServletResponse response){
         int id = Integer.parseInt(request.getParameter("id"));
@@ -157,6 +169,12 @@ public class ExpressController {
         return json;
     }
 
+    /**
+     * 快件的删除
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/delete.do")
     public String delete(HttpServletRequest request,HttpServletResponse response){
         int id = Integer.parseInt(request.getParameter("id"));

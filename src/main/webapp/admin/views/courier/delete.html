@@ -14,7 +14,7 @@
 			<div class="content">
 				<table>	
 					<tr>
-						<td class="text-right">手机号码</td><td class="content_right"><input id="exPhone" class="input inline-input" placeholder="请输入手机号码"> <span class="btn btn-info" id="find">立即查找</span></td>
+						<td class="text-right">手机号码</td><td class="content_right"><input id="exPhone" autocomplete="off" class="input inline-input" placeholder="请输入手机号码"> <span class="btn btn-info" id="find">立即查找</span></td>
 					</tr>
 				</table>
 			</div>
@@ -76,6 +76,7 @@
 					layer.close(windowId);
 					layer.msg(data.result);
 					if(data.status == 0){
+						$("input:eq(0)").val("");
 						$(".header:eq(1),.content:eq(1)").hide();
 					}
 				});

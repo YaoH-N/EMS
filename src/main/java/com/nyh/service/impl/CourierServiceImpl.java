@@ -1,11 +1,10 @@
 package com.nyh.service.impl;
 
 import com.nyh.mapper.CourierMapper;
-import com.nyh.pojo.*;
+import com.nyh.pojo.Courier;
+import com.nyh.pojo.CourierExample;
 import com.nyh.service.CourierService;
-import com.nyh.service.UserService;
 import com.nyh.utils.DateFormatUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -95,6 +94,18 @@ public class CourierServiceImpl implements CourierService {
     }
 
     /**
+     * 根据主键查询
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Courier findById(int id) {
+        Courier courier = courierMapper.selectByPrimaryKey(id);
+        return courier;
+    }
+
+    /**
      * 根据身份证号，查询快递员信息
      *
      * @param idCard 身份证号
@@ -141,6 +152,27 @@ public class CourierServiceImpl implements CourierService {
         System.out.println("newExpress" + newCourier);
         int i = courierMapper.updateByPrimaryKeySelective(newCourier);
         return i > 0 ? true : false;
+    }
+
+    /**
+     * 快递员登录后更新登录时间
+     *
+     * @param userPhone
+     * @param date
+     */
+    @Override
+    public void updateLoginTime(String userPhone, Date date) {
+        CourierExample example = new CourierExample();
+        // 创建存放条件的容器
+        CourierExample.Criteria criteria = example.createCriteria();
+        criteria.andExphoneEqualTo(userPhone);
+        // 封装要修改的数据对象
+        Courier courier = new Courier();
+        courier.setPrelogtime(date);
+
+        // courier:修改后的对象，如果该对象中有些属性为空，则不修改
+        // example: 查询条件类
+        int i = courierMapper.updateByExampleSelective(courier, example);
     }
 
     /**

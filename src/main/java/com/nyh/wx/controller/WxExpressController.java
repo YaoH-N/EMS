@@ -6,9 +6,7 @@ import com.nyh.pojo.Express;
 import com.nyh.pojo.Message;
 import com.nyh.pojo.User;
 import com.nyh.service.ExpressService;
-import com.nyh.utils.DateFormatUtil;
-import com.nyh.utils.JSONUtil;
-import com.nyh.utils.UserUtil;
+import com.nyh.utils.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,6 +30,12 @@ public class WxExpressController {
 
     private DateFormatUtil dateFormatUtil=new DateFormatUtil();
 
+    /**
+     * 微信端根据手机号码查询快递
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/findExpressByUserPhone.do")
     public String findByUserPhone(HttpServletRequest request, HttpServletResponse response) {
         User wxUser = UserUtil.getWxUser(request.getSession());
@@ -96,6 +100,12 @@ public class WxExpressController {
         return JSONUtil.toJSON(msg);
     }
 
+    /**
+     * 微信端根据手机号码和快递状态查询快递信息
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping(("/findByUserPhoneAndStatus.do"))
     public String findByUserPhoneAndStatus(HttpServletRequest request, HttpServletResponse response) {
         String userPhone = request.getParameter("userPhone");
@@ -150,6 +160,12 @@ public class WxExpressController {
         return json;
     }
 
+    /**
+     * 根据取件码查询快递信息
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/findExpressByCode.do")
     public String findExpressByCode(HttpServletRequest request, HttpServletResponse response) {
         // 获取请求参数
@@ -175,6 +191,12 @@ public class WxExpressController {
         return JSONUtil.toJSON(msg);
     }
 
+    /**
+     * 录入快递微信端
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/insertExpress.do")
     public String insertExpress(HttpServletRequest request, HttpServletResponse response) {
         // 获取请求参数
@@ -193,6 +215,10 @@ public class WxExpressController {
         if (insert) {
             msg.setStatus(0);
             msg.setResult("快递录入成功!");
+            // 发送短信
+            String code = RandomUtil.getCode()+"";
+            TencentSMSUtil.send1(userphone, code);
+            msg.setData("验证码已发送："+code);
         } else {
             msg.setStatus(-1);
             msg.setResult("快递录入失败!");

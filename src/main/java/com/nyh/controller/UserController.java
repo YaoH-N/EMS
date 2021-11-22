@@ -1,11 +1,12 @@
 package com.nyh.controller;
 
-import com.nyh.pojo.*;
-import com.nyh.service.ExpressService;
+import com.nyh.pojo.BootStrapTableUser;
+import com.nyh.pojo.Message;
+import com.nyh.pojo.ResultData;
+import com.nyh.pojo.User;
 import com.nyh.service.UserService;
 import com.nyh.utils.DateFormatUtil;
 import com.nyh.utils.JSONUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,6 +28,12 @@ public class UserController {
 
     private DateFormatUtil dateFormatUtil = new DateFormatUtil();
 
+    /**
+     * 用户列表的展示
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/list.do")
     public String list(HttpServletRequest request, HttpServletResponse response){
         //1.    获取查询数据的起始索引值
@@ -52,6 +59,12 @@ public class UserController {
         return json;
     }
 
+    /**
+     * 用户的录入
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/insert.do")
     public String insert(HttpServletRequest request,HttpServletResponse response){
         String userName = request.getParameter("userName");
@@ -84,6 +97,12 @@ public class UserController {
         return json;
     }
 
+    /**
+     * 用户的查找
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/find.do")
     public String find(HttpServletRequest request,HttpServletResponse response){
         String userPhone = request.getParameter("userPhone");
@@ -101,6 +120,12 @@ public class UserController {
         return json;
     }
 
+    /**
+     * 用户的更新
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/update.do")
     public String update(HttpServletRequest request,HttpServletResponse response){
         int id = Integer.parseInt(request.getParameter("id"));
@@ -110,12 +135,15 @@ public class UserController {
         String userPwd = request.getParameter("userPwd");
 
         /**
+         *
+         * 还要根据id查询出该用户，判断用户是否准备更换手机号码，如果要修改手机号码则
          * 更新之前先根据用户输入的手机号码查询用户，看该手机号码是否已经注册过用户
+         * 否则直接更新用户需要修改的信息即可
          */
         Message msg = new Message();
+        User user = userService.findById(id);
         User byUserPhone = userService.findByUserPhone(userPhone);
-        System.out.println(byUserPhone);
-        if(byUserPhone!=null){
+        if(byUserPhone!=null && !user.getUserphone().equals(userPhone)){
             msg.setStatus(-1);
             msg.setResult("很遗憾，该手机号已被注册");
         }else{ // 准备更新用户信息
@@ -139,7 +167,12 @@ public class UserController {
         return json;
     }
 
-
+    /**
+     * 用户的删除
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/delete.do")
     public String delete(HttpServletRequest request,HttpServletResponse response){
         int id = Integer.parseInt(request.getParameter("id"));

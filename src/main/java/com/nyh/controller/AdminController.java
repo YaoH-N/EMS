@@ -6,8 +6,6 @@ import com.nyh.service.CourierService;
 import com.nyh.service.ExpressService;
 import com.nyh.service.UserService;
 import com.nyh.utils.JSONUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@ResponseBody
 @RequestMapping("/admin")
 public class AdminController {
 
@@ -42,6 +39,7 @@ public class AdminController {
      * @param response
      * @return
      */
+    @ResponseBody
     @RequestMapping("/login.do")
     public String login(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("请求成功！login");
@@ -58,7 +56,6 @@ public class AdminController {
             // 登录时间和ip的更新
             Date date = new Date();
             String ip = request.getRemoteAddr();    // 获取对方的地址
-            System.out.println(ip+"----------ip地址");
             adminService.updateLoginTimeAndIP(username, date, ip); // 更新登录时间和ip
             request.getSession().setAttribute("username", username);
             request.getSession().setMaxInactiveInterval(900); // 设置session的有效时间为15分钟
@@ -77,6 +74,7 @@ public class AdminController {
      * @param resp
      * @return
      */
+    @ResponseBody
     @RequestMapping("/console.do")
     public String console(HttpServletRequest req, HttpServletResponse resp) {
         List<Map<String, Integer>> data = expressService.console();
@@ -91,6 +89,18 @@ public class AdminController {
         msg.setData(data);
         String json = JSONUtil.toJSON(msg);
         return json;
+    }
+
+    /**
+     * 退出登录，清空session
+     * @param req
+     * @param resp
+     * @return
+     */
+    @RequestMapping("/logout.do")
+    public String logout(HttpServletRequest req, HttpServletResponse resp) {
+        req.getSession().invalidate();
+        return "/admin/login";
     }
 
 

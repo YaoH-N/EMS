@@ -14,7 +14,7 @@
 			<div class="content">
 				<table>	
 					<tr>
-						<td class="text-right">手机号码</td><td class="content_right"><input class="input inline-input" placeholder="请输入手机号码" id="userPhone"> <span class="btn btn-info" id="find">立即查找</span></td>
+						<td class="text-right">手机号码</td><td class="content_right"><input class="input inline-input" autocomplete="off" placeholder="请输入手机号码" id="userPhone"> <span class="btn btn-info" id="find">立即查找</span></td>
 					</tr>
 				</table>
 			</div>
@@ -26,16 +26,16 @@
 			<div class="content">
 				<table>
 					<tr>
-						<td class="text-right">姓名</td><td class="content_right"><input id="userName" class="input" placeholder="请输入姓名"></td>
+						<td class="text-right">姓名</td><td class="content_right"><input id="userName" autocomplete="off" class="input" placeholder="请输入姓名"></td>
 					</tr>
 					<tr>
-						<td class="text-right">手机号码</td><td class="content_right"><input id="userPhone1" class="input" type="tel" placeholder="请输入手机号码"></td>
+						<td class="text-right">手机号码</td><td class="content_right"><input id="userPhone1" autocomplete="off" class="input" type="tel" placeholder="请输入手机号码"></td>
 					</tr>
 					<tr>
-						<td class="text-right">身份证号码</td><td class="content_right"><input id="idCard" class="input" placeholder="请输入身份证号"></td>
+						<td class="text-right">身份证号码</td><td class="content_right"><input id="idCard" autocomplete="off" class="input" placeholder="请输入身份证号"></td>
 					</tr>
 					<tr>
-						<td class="text-right">密码</td><td class="content_right"><input id="userPwd" class="input" type="text" placeholder="请输入密码"></td>
+						<td class="text-right">密码</td><td class="content_right"><input id="userPwd" autocomplete="off" class="input" type="text" placeholder="请输入密码"></td>
 					</tr>
 					<tr>
 						<td></td><td class="content_right"><span class="btn btn-info" id="update">立即修改</span> <span id="reset" class="btn">重置</span> </td>
@@ -129,10 +129,12 @@
 						userPwd:userPwd,
 					};
 					$.getJSON("/user/update.do",user,function(data){
+						console.log("data:"+data)
 						layer.close(windowId);
 						layer.msg(data.result);
 						if(data.status == 0){
 							//修改成功
+							$("input:eq(0)").val("");
 							$(".header:eq(1),.content:eq(1)").hide();
 						}
 					});

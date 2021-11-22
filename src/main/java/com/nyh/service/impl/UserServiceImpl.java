@@ -1,8 +1,6 @@
 package com.nyh.service.impl;
 
 import com.nyh.mapper.UserMapper;
-import com.nyh.pojo.Courier;
-import com.nyh.pojo.CourierExample;
 import com.nyh.pojo.User;
 import com.nyh.pojo.UserExample;
 import com.nyh.service.UserService;
@@ -10,7 +8,10 @@ import com.nyh.utils.DateFormatUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -112,6 +113,18 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 根据主键查询
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public User findById(int id) {
+        User user = userMapper.selectByPrimaryKey(id);
+        return user;
+    }
+
+    /**
      * 用户信息的录入
      *
      * @param user 要录入的用户对象
@@ -137,6 +150,27 @@ public class UserServiceImpl implements UserService {
         System.out.println("newExpress" + newUser);
         int i = userMapper.updateByPrimaryKeySelective(newUser);
         return i > 0 ? true : false;
+    }
+
+    /**
+     * 普通用户登录后更新登录时间
+     *
+     * @param userPhone
+     * @param date
+     */
+    @Override
+    public void updateLoginTime(String userPhone, Date date) {
+        UserExample example = new UserExample();
+        // 创建存放条件的容器
+        UserExample.Criteria criteria = example.createCriteria();
+        criteria.andUserphoneEqualTo(userPhone);
+        // 封装要修改的数据对象
+        User user = new User();
+        user.setPrelogtime(date);
+
+        // user:修改后的对象，如果该对象中有些属性为空，则不修改
+        // example: 查询条件类
+        int i = userMapper.updateByExampleSelective(user, example);
     }
 
     /**

@@ -282,7 +282,7 @@
                 <div class="userInputCont">
                     <div class="inputTypeCont">
                         <div class="inputTitle">取件码</div>
-                        <input type="text" id="expPickUserId" class="commonInputFunc" name="username"
+                        <input type="text" autocomplete="off" id="expPickUserId" class="commonInputFunc" name="username"
                                placeholder="请输入取货码">
                         <div class="commonFuncBtnScan" id="scanQRCodeBtn"></div>
                     </div>
@@ -313,7 +313,9 @@
                     window.location.href = "wxUserhome.html";
                     break;
                 case(2):
-                    window.location.href = "login.html";
+                    $.getJSON("/wx/user/logout.do", null, function (data) {
+                        window.location.href= "login.html";
+                    });
                     break;
             }
         });

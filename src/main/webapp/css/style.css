@@ -566,6 +566,33 @@ a {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAFaElEQVRoQ+2azXXbRhCAZwCC1zgVRKogcgWWKrBUgcWYzNXiQYvnk6mTH+CD5GvIREwFkiowVIGYCsx0QF1JgZM3IIC3WCz+SNCBfniSiAU4387Mzh8QntkHnxkvvAA/dY2/aPhFw09sByqb9Mh1PyDiK94HWi6nZrt90+n3Z49lX0oDX56fv3pYLL4hwJ4MRwCTlmUdPBbo0sBD171TYSPwxwRdCvhP1z0mgMsYkOgeEdmMf5G0Pe4K0Wm6aRcCsyn7i8V3AFj5LdF9q93e4b/9xWIiQxNRv2fbF02GLgQeOs4AET9FEAjQeS/EmP//w3X3DIC7hE8jHvROT72mQhcCjxznOyAGGiWA254Q+zLM0HFOEPFc+m5mWtZuUw+xXGBVg7J2E9Cue40Ab+VDrCfE6yZqORdY1Z5pWT/rNBf4+XzuAeKvEuTXrhAnTYPOBR45zhgQ3wVCE/3Tte1EDJZh2BqQyEPEn3T+3hTwfA27rocAb0Lgv7u2fZwnuBq+AGBm+v7rzseP00cBPHJdkmLvWc+2B0WCJ6xiFcZK3Vf03Lqu55v0GsApfyaadm17ty6BN31O7cAs0Mh1OStbmX+B728KUPX+WoHDrOwKAOJYTQA3PSEOqwq2rfVFYWkWnbpFgo8c5xAQWbNBChr7fsMyr9KntC7LiqCGjnOOiImYyzm3gXgSpaHb0ljV5xYBJzKorhCp9cMvX/aR6FtCqwC3Ld8/blI4knKD7D1K5clER13bvpbvGKppZcPCkEpXKZcGgFS6mGgMEBUmJ1VNsO71hdXS0HHigws0MXXkOJM4h34KwKnMSTl1FZNuXCpZyaR5carIV7QYhiOOvdHH6wpxULcp1vW8QpPmHxrKRQQAqGWier1p+bO8WaWANVVQ4vC6/Px558EwJnJpSA1LOEqFJXlnEocTa9n3d+U4qzHt2RLg4HchuNHXmE8pDQdmnU4wUr6qHnBcDzcNujRw6MuJzEvtcWW0etaC/st1V40HAPhNiNu6TKQSsMZXUzCbQgdRgegq6pQyaJ2TjUrAgZaVtiwLo3Yos6AJ8SivZx26DYe4RMUVandWdH8ZK6gMrDNtAEiNWTKgAREH709Pz1ThwvV3smYzAE66QnwtA6dbsxZwMEmcz6dyGKoCrVs7cl0e0XyIhORyFBAHSMTNg/j78PrYtKz+Os3+tYD5R7VjFk2lFGruIm73xkQ0JcPosImrIS2YXy2Xe1HY4zxgSXSRiPMAEwLoVA17awOz3JqEhLuUFz3b7qvmpBnJZFulpgwNN5hLU3liOQOijlqy5pn7RsC6QywyOd3oNENoVb7MiUU4lB/LYx2+OetcqM2H1QdpEg7uVl6b7XZH9bNMEw/iT7l6Wp1ohvJ4pmUdFfn1xhqO4LXmneNnHNN9w9gjfoXCMLxWqzUpElbeaPZ7AhgnDs4SG1YbcOTT6uHC6SUADDYJJVk+GW7atTzE0/Xd5PtrBY5PbyIewsmTRL7kmb7fqbuxp+b4RVVa7cBMluunAGPT98/qAA9SXdO8kl+2Uas41Tq2Ahz9SBhfOaGQQ0lwmVNSXMHfrAM/cpx3gMjPjtPQvN55JNNWgSNtP8zn/FpE/J5IyieJpoDoAZFnIE511VHor28Akcc4nH0lJxxE94S4X5SIbB04ggsFHqQyrrwsYbURwfslucu48W9Zh2VO+R8GHIOv8nAey7DW47cFiqB01zkF5QhQ5VWpHw4sCx7EbqL90ExTfp6xCf+y6SOiZ1jWdRmtbjUsraOpwNf5xG21dmC55PdIUvUwAkzM5XKyzgHXSOB1N6rqff+rSVcVto71L8B17GKTn/Gi4SZrpw7Znp2G/wNIifJbp9mP3gAAAABJRU5ErkJggg==)
 }
 
+.icon-phone1 {
+    position: absolute;
+    left: 10px;
+    top: .4rem;
+    background-image: url(../images/电话.png);
+}
+
+.icon-username {
+    position: absolute;
+    left: 10px;
+    top: .4rem;
+    background-image: url(../images/用户名.png);
+}
+
+.icon-id {
+    position: absolute;
+    left: 10px;
+    top: .4rem;
+    background-image: url(../images/身份证.png);
+}
+.icon-password {
+    position: absolute;
+    left: 10px;
+    top: .4rem;
+    background-image: url(../images/密码.png);
+}
+
 .icon-code {
     position: absolute;
     left: 10px;

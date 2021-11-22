@@ -1,5 +1,8 @@
 package com.nyh.exception;
 
+/**
+ * 快递录入时，取件码是随机生成的，可能发生取件码重复，这里进行异常处理
+ */
 public class DuplicateCodeException extends Exception{
     /**
      * Constructs a new exception with {@code null} as its detail message.

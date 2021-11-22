@@ -129,10 +129,10 @@
 
         // 重置按钮，清除所填表单中的所有信息
         $("#reset").click(function () {
+            $("input:eq(0)").val("");
             $("input:eq(1)").val("");
             $("input:eq(2)").val("");
             $("input:eq(3)").val("");
-            $("input:eq(4)").val("");
         });
     });
 </script>

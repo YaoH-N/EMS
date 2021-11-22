@@ -1,8 +1,8 @@
 package com.nyh.service;
 
 import com.nyh.pojo.User;
-import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +38,13 @@ public interface UserService {
     User findByIdCard(String idCard);
 
     /**
+     * 根据主键查询
+     * @param id
+     * @return
+     */
+    User findById(int id);
+
+    /**
      * 用户信息的录入
      * @param  user  要录入的用户对象
      * @return   录入的结果，true表示成功，false表示失败
@@ -52,6 +59,13 @@ public interface UserService {
      * @return 修改的结果 true表示成功，false表示失败
      */
     boolean update(int id,User newUser);
+
+    /**
+     * 普通用户登录后更新登录时间
+     * @param userPhone
+     * @param date
+     */
+    void updateLoginTime(String userPhone, Date date);
 
 
     /**

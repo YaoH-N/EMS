@@ -20,6 +20,12 @@ import java.io.PrintWriter;
 @RequestMapping("/wx/qrcode")
 public class QRCodeController {
 
+    /**
+     * 生成二维码
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     @RequestMapping("/createQRCode.do")
     public void createQRCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // 获取请求参数
@@ -72,7 +78,6 @@ public class QRCodeController {
         response.setCharacterEncoding("UTF-8");
         PrintWriter pw = response.getWriter();
         String urlText = request.getParameter("xurl");
-        System.out.println(urlText+"++++++++++++");
         try {
             String json = SignatureUtil.getConfig(urlText).toJSON();
             pw.println(json);

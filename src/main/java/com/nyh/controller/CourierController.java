@@ -1,6 +1,9 @@
 package com.nyh.controller;
 
-import com.nyh.pojo.*;
+import com.nyh.pojo.BootStrapTableCourier;
+import com.nyh.pojo.Courier;
+import com.nyh.pojo.Message;
+import com.nyh.pojo.ResultData;
 import com.nyh.service.CourierService;
 import com.nyh.utils.DateFormatUtil;
 import com.nyh.utils.JSONUtil;
@@ -25,6 +28,12 @@ public class CourierController {
 
     private DateFormatUtil dateFormatUtil = new DateFormatUtil();
 
+    /**
+     * 快递员列表
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/list.do")
     public String list(HttpServletRequest request, HttpServletResponse response){
         //1.    获取查询数据的起始索引值
@@ -33,9 +42,8 @@ public class CourierController {
         int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
         //3.    进行查询
         List<Courier> list = courierService.findAll(true,offset,pageNumber);
-        for (Courier courier : list) {
-            System.out.println(courier);
-        }
+
+        // 为了将时间格式化为自定格式
         List<BootStrapTableCourier> list2 = new ArrayList<>();
         for(Courier courier:list){
             String regTime = dateFormatUtil.format(courier.getRegtime());
@@ -51,9 +59,16 @@ public class CourierController {
         data.setRows(list2);
         data.setTotal(total);
         String json = JSONUtil.toJSON(data);
+        System.out.println(json);
         return json;
     }
 
+    /**
+     * 快递员的录入
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/insert.do")
     public String insert(HttpServletRequest request,HttpServletResponse response){
         String exName = request.getParameter("exName");
@@ -85,6 +100,12 @@ public class CourierController {
         return json;
     }
 
+    /**
+     * 快递员的查找（根据手机号码查找）
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/find.do")
     public String find(HttpServletRequest request,HttpServletResponse response){
         String exPhone = request.getParameter("exPhone");
@@ -102,6 +123,12 @@ public class CourierController {
         return json;
     }
 
+    /**
+     * 快递员信息的更新
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/update.do")
     public String update(HttpServletRequest request,HttpServletResponse response){
         int id = Integer.parseInt(request.getParameter("id"));
@@ -111,11 +138,15 @@ public class CourierController {
         String exPassword = request.getParameter("exPassword");
 
         /**
+         *
+         * 还要根据id查询出该快递员，判断快递员是否准备更换手机号码，如果要修改手机号码则
          * 更新之前先根据用户输入的手机号码查询快递员，看该手机号码是否已经注册过快递员
+         * 否则直接更新快递员需要修改的信息即可
          */
         Message msg = new Message();
+        Courier courier = courierService.findById(id);
         Courier byExPhone = courierService.findByExPhone(exPhone);
-        if(byExPhone!=null){
+        if(byExPhone!=null && !courier.getExphone().equals(exPhone)){
             msg.setStatus(-1);
             msg.setResult("很遗憾，该手机号已被注册");
         }else{ // 准备更新快递员信息
@@ -138,7 +169,12 @@ public class CourierController {
         return json;
     }
 
-
+    /**
+     * 快递员的删除
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/delete.do")
     public String delete(HttpServletRequest request,HttpServletResponse response){
         int id = Integer.parseInt(request.getParameter("id"));

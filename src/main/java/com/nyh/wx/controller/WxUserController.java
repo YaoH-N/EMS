@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 @Controller
 @ResponseBody // 该注解声明下的类所有返回字符串的方法都不去查找跟字符串同名的视图，而是直接返回字符串本身
@@ -55,11 +56,19 @@ public class WxUserController {
         return JSONUtil.toJSON(msg);
     }
 
+    /**
+     * 登录
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/login.do")
     public String login(HttpServletRequest request, HttpServletResponse response) {
         // 1、接收请求的参数
         String userPhone = request.getParameter("userPhone");
         String userCode = request.getParameter("code"); // 用户输入的验证码
+        // 将手机号码存储到session中，方便拦截器进行验证
+        request.getSession().setAttribute("userPhone",userPhone);
         // 获取存储在session中的信息  key：输入的手机号，value：向该手机号发送的验证码
         String sysCode = UserUtil.getLoginSms(request.getSession(), userPhone);
         Message msg = new Message();
@@ -72,11 +81,15 @@ public class WxUserController {
             user.setUserphone(userPhone);
             // 判断是用户登录还是快递员登录
             if (courierService.findByExPhone(userPhone) != null) {
+                // 快递员登录成功更新快递员的登录时间
+                courierService.updateLoginTime(userPhone,new Date());
                 // 快递员登录（包含普通用户的权限）
                 msg.setStatus(1);
                 msg.setResult("登录成功!");
                 user.setUser(false);// 这是新添加的属性，用于判断该手机号是用户还是快递员 false表示快递员
             } else if (userService.findByUserPhone(userPhone) != null) {
+                // 普通用户登录成功更新快递员的登录时间
+                userService.updateLoginTime(userPhone,new Date());
                 // 普通用户登录
                 msg.setStatus(0);
                 msg.setResult("登录成功!");
@@ -98,6 +111,12 @@ public class WxUserController {
         return JSONUtil.toJSON(msg);
     }
 
+    /**
+     * 退出登录，清空session
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/logout.do")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().invalidate();
@@ -143,14 +162,35 @@ public class WxUserController {
         Message msg = new Message();
         if ("1".equals(role)) {
             // 注册为用户
-            msg.setStatus(1);
-            userService.insert(new User(username, userphone, idcard, password));
-            msg.setResult("用户注册成功!");
+            /*
+                先查询是否已经存在该手机号注册的用户，如果存在提示该手机号已经被注册为用户
+             */
+            User byUserPhone = userService.findByUserPhone(userphone);
+            if(byUserPhone != null){
+                // 表示该手机号码已经被注册
+                msg.setStatus(-1);
+                msg.setResult("该手机号已被注册!");
+            }else{
+                msg.setStatus(1);
+                userService.insert(new User(username, userphone, idcard, password));
+                msg.setResult("用户注册成功!");
+            }
         } else if ("0".equals(role)) {
             // 注册为快递员
-            msg.setStatus(0);
-            courierService.insert(new Courier(username, userphone, idcard, password));
-            msg.setResult("快递员注册成功!");
+            /*
+                先查询是否已经存在该手机号注册的快递员，如果存在提示该手机号已经被注册为快递员
+             */
+            Courier byExPhone = courierService.findByExPhone(userphone);
+            if(byExPhone != null){
+                // 表示该手机号码已经被注册
+                msg.setStatus(-1);
+                msg.setResult("该手机号已被注册!");
+            }else{
+                msg.setStatus(0);
+                courierService.insert(new Courier(username, userphone, idcard, password));
+                msg.setResult("快递员注册成功!");
+            }
+
         } else {
             msg.setStatus(-1);
             msg.setResult("请您选择注册的用户类型!");
@@ -158,6 +198,12 @@ public class WxUserController {
         return JSONUtil.toJSON(msg);
     }
 
+    /**
+     * 根据快递单号查询快递
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/findExpressByNum.do")
     public String findExpressByNum(HttpServletRequest request, HttpServletResponse response) {
         // 获取登录时session中存储的user对象信息 为了下面判断该用户是快递员还是其他用户
@@ -171,6 +217,7 @@ public class WxUserController {
         if (express == null) {
             msg.setStatus(-1);
             msg.setResult("快递单号不存在!");
+            msg.setData("快递单号不存在!");
             return JSONUtil.toJSON(msg);
         }
         // 封装查询结果文字信息，用来显示给用户
@@ -231,6 +278,12 @@ public class WxUserController {
         return JSONUtil.toJSON(msg);
     }
 
+    /**
+     * 更新用户信息
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/updateInfoByPhone.do")
     public String updateInfoByPhone(HttpServletRequest request, HttpServletResponse response) {
         // 获取请求参数

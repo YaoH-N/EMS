@@ -148,7 +148,7 @@
 		<div class="headerNavCont">
 			<span class="linkHeader">快递首页</span>
 			<span class="linkHeader">个人中心</span>
-			<span class="linkHeaders">快递助手</span>
+			<span class="linkHeader">快递助手</span>
 			<span class="linkHeader">退出登录</span>
 		</div>
 	</div>
@@ -214,7 +214,6 @@
 
 		$(".linkHeader").click(function () {
 			var clickNum = $(this).index();
-			console.log(clickNum)
 			switch (clickNum) {
 					//个人中心
 				case(0):
@@ -224,7 +223,12 @@
 					window.location.href = "wxUserhome.html";
 					break;
 				case(2):
-					window.location.href = "login.html";
+					window.location.href = "expressAssist.html";
+					break;
+				case(3):
+					$.getJSON("/wx/user/logout.do", null, function (data) {
+						window.location.href= "login.html";
+					});
 					break;
 			}
 		});

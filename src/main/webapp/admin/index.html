@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,10 +10,11 @@
     <link rel="icon" href="/favicon.ico">
     <title>东风EMS管理后台</title>
 </head>
+
 <body class="layui-layout-body">
     <div class="layui-layout layui-layout-admin">
         <div class="layui-header custom-header">
-            
+
             <ul class="layui-nav layui-layout-left">
                 <li class="layui-nav-item slide-sidebar" lay-unselect>
                     <a href="javascript:;" class="icon-font"><i class="ai ai-menufold"></i></a>
@@ -21,21 +23,19 @@
 
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
-                    <a href="javascript:;" id="username">admin</a>
+                    <a href="javascript:;" id="username">个人中心</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="#">帮助中心</a></dd>
-                        <dd><a href="login.html">退出</a></dd>
+                        <dd><a href="#">帮助</a></dd>
+                        <dd><a href="/admin/logout.do">退出</a></dd>
                     </dl>
                 </li>
             </ul>
         </div>
-
         <div class="layui-side custom-admin">
             <div class="layui-side-scroll">
-
                 <div class="custom-logo">
-                    <img src="assets/images/logo.gif" alt=""/>
-<!--                    <h1>东风EMS</h1>-->
+                    <img src="./assets/images/logo.png" alt="" />
+                    <h1>东风EMS</h1>
                 </div>
                 <ul id="Nav" class="layui-nav layui-nav-tree">
                     <li class="layui-nav-item">
@@ -71,7 +71,7 @@
                             <dd><a href="views/express/delete.html"><i class="layui-icon">&#xe640;</i> 快件删除</a></dd>
                         </dl>
                     </li>
-                     <li class="layui-nav-item">
+                    <li class="layui-nav-item">
                         <a href="javascript:;">
                             <i class="layui-icon">&#xe770;</i>
                             <em>用户管理</em>
@@ -89,14 +89,14 @@
         </div>
 
         <div class="layui-body">
-             <div class="layui-tab app-container" lay-allowClose="true" lay-filter="tabs">
+            <div class="layui-tab app-container" lay-allowClose="true" lay-filter="tabs">
                 <ul id="appTabs" class="layui-tab-title custom-tab"></ul>
                 <div id="appTabPage" class="layui-tab-content"></div>
             </div>
         </div>
 
         <div class="layui-footer">
-            <p>©2021 <a href="http://www.itdage.com/" target="_blank">牛耀辉版权声明</a></p>
+            <p>©2021 <a href="" target="_blank">东风EMS版权声明</a></p>
         </div>
 
         <div class="mobile-mask"></div>
@@ -107,7 +107,8 @@
     <script>
         var username = sessionStorage.getItem("loginName")
         $("#username").text(username)
-        console.log("username"+username)
+        console.log("username" + username)
     </script>
 </body>
+
 </html>

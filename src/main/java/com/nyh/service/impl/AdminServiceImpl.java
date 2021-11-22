@@ -3,9 +3,7 @@ package com.nyh.service.impl;
 import com.nyh.mapper.EadminMapper;
 import com.nyh.pojo.Eadmin;
 import com.nyh.pojo.EadminExample;
-import com.nyh.pojo.ExpressExample;
 import com.nyh.service.AdminService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -34,7 +32,7 @@ public class AdminServiceImpl implements AdminService {
         // 封装要修改的数据对象
         Eadmin eadmin = new Eadmin();
         eadmin.setLoginip(ip);
-        eadmin.setLogintime(new java.sql.Date(date.getTime()));
+        eadmin.setLogintime(date);
 
         // eadmin:修改后的对象，如果该对象中有些属性为空，则不修改
         // example: 查询条件类

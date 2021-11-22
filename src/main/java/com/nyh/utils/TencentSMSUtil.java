@@ -8,7 +8,10 @@ import com.tencentcloudapi.sms.v20190711.SmsClient;
 import com.tencentcloudapi.sms.v20190711.models.SendSmsRequest;
 import com.tencentcloudapi.sms.v20190711.models.SendSmsResponse;
 
-
+/**
+ * 短信发送工具类，由于通过腾讯云真正实现短信发送会产生费用
+ * 这里采用模拟短信发送的方式，即给用户弹窗提示验证码已经发送，并且显示随机生成的验证码
+ */
 public class TencentSMSUtil {
 
     // 现在由于只有注册过的项目才能使用短信功能，这里做了简化

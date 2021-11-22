@@ -14,7 +14,7 @@
 			<div class="content">
 				<table>	
 					<tr>
-						<td class="text-right">手机号码</td><td class="content_right"><input class="input inline-input" placeholder="请输入手机号码" id="exPhone"> <span class="btn btn-info" id="find">立即查找</span></td>
+						<td class="text-right">手机号码</td><td class="content_right"><input class="input inline-input" autocomplete="off" placeholder="请输入手机号码" id="exPhone"> <span class="btn btn-info" id="find">立即查找</span></td>
 					</tr>
 				</table>
 			</div>
@@ -26,16 +26,16 @@
 			<div class="content">
 				<table>
 					<tr>
-						<td class="text-right">姓名</td><td class="content_right"><input class="input" placeholder="请输入姓名" id="exName"></td>
+						<td class="text-right">姓名</td><td class="content_right"><input class="input" placeholder="请输入姓名"  autocomplete="off" id="exName"></td>
 					</tr>
 					<tr>
-						<td class="text-right">手机号码</td><td class="content_right"><input class="input" type="tel" placeholder="请输入手机号码" id="exPhone1"></td>
+						<td class="text-right">手机号码</td><td class="content_right"><input class="input" type="tel"  autocomplete="off" placeholder="请输入手机号码" id="exPhone1"></td>
 					</tr>
 					<tr>
-						<td class="text-right">身份证号码</td><td class="content_right"><input class="input" placeholder="请输入身份证号码" id="idCard"></td>
+						<td class="text-right">身份证号码</td><td class="content_right"><input class="input"  autocomplete="off" placeholder="请输入身份证号码" id="idCard"></td>
 					</tr>
 					<tr>
-						<td class="text-right">密码</td><td class="content_right"><input class="input" type="text" placeholder="请输入密码" id="exPassWord"></td>
+						<td class="text-right">密码</td><td class="content_right"><input class="input" type="text" autocomplete="off" placeholder="请输入密码" id="exPassWord"></td>
 					</tr>
 					<tr>
 						<td></td><td class="content_right"><span class="btn btn-info" id="update">立即修改</span> <span id="reset" class="btn">重置</span> </td>
@@ -126,6 +126,7 @@
 						layer.msg(data.result);
 						if(data.status == 0){
 							//修改成功
+							$("input:eq(0)").val("");
 							$(".header:eq(1),.content:eq(1)").hide();
 						}
 					});
