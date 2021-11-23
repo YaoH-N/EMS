@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/add.css"/>
+	</head>
+	<body>
+		<div id="app">
+			<div class="header">
+				<span>修改快递员</span>
+			</div>
+			<div class="content">
+				<table>	
+					<tr>
+						<td class="text-right">手机号码</td><td class="content_right"><input class="input inline-input" autocomplete="off" placeholder="请输入手机号码" id="exPhone"> <span class="btn btn-info" id="find">立即查找</span></td>
+					</tr>
+				</table>
+			</div>
+			
+			
+			<div class="header">
+				<span>查找信息如下</span>
+			</div>
+			<div class="content">
+				<table>
+					<tr>
+						<td class="text-right">姓名</td><td class="content_right"><input class="input" placeholder="请输入姓名"  autocomplete="off" id="exName"></td>
+					</tr>
+					<tr>
+						<td class="text-right">手机号码</td><td class="content_right"><input class="input" type="tel"  autocomplete="off" placeholder="请输入手机号码" id="exPhone1"></td>
+					</tr>
+					<tr>
+						<td class="text-right">身份证号码</td><td class="content_right"><input class="input"  autocomplete="off" placeholder="请输入身份证号码" id="idCard"></td>
+					</tr>
+					<tr>
+						<td class="text-right">密码</td><td class="content_right"><input class="input" type="text" autocomplete="off" placeholder="请输入密码" id="exPassWord"></td>
+					</tr>
+					<tr>
+						<td></td><td class="content_right"><span class="btn btn-info" id="update">立即修改</span> <span id="reset" class="btn">重置</span> </td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</body>
+
+	<script src="../../../qrcode/jquery2.1.4.js"></script>
+	<script src="/layer/layer.js"></script>
+	<script>
+		// 手机号码正则
+		var phone_regex = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
+		// 身份证号(15位、18位数字)正则
+		var idCard_regex = /^[1-9]\d{5}(18|19|([2-3]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+		// 密码正则匹配  以字母开头，长度在6~18之间，只能包含字母、数字和下划线)：
+		var pwd_regex = /^[a-zA-Z]\w{5,17}$/;
+		//隐藏查找信息如下的界面内容
+		$(".header:eq(1),.content:eq(1)").hide();
+		var exId = null; // 存放查找出来的快递员id
+		// var g_exPhone = null; // 存放快递员手机号
+		$(function (){
+			$("#find").click(function(){
+				var windowId = layer.load();
+				var exPhone = $("#exPhone").val();
+				$.getJSON("/courier/find.do",{exPhone:exPhone},function(data){
+					layer.close(windowId);
+					//data=:{"status":0,"result":"查询成功","data":{"id":2,"number":"124","username":"李四","userPhone":"15201012257","company":"京东快递","code":"12366","inTime":"Jul 29, 2021 11:01:31 PM","status":0,"sysPhone":"18888888888"}}
+					layer.msg(data.result);
+					console.log(data);
+					if(data.status == 0){
+						$(".header:eq(1),.content:eq(1)").fadeIn(1000);
+						exId=data.data.id;
+						// g_exPhone=data.data.userPhone;
+						$("input:eq(1)").val(data.data.exname);
+						$("input:eq(2)").val(data.data.exphone);
+						$("input:eq(3)").val(data.data.idcard);
+						$("input:eq(4)").val(data.data.expassword);
+					}
+				});
+			});
+
+			$("#update").click(function (){
+				var windowId = layer.load();
+				var exName = $("input:eq(1)").val();
+				var exPhone = $("input:eq(2)").val();
+				var idCard = $("input:eq(3)").val();
+				var exPassword = $("input:eq(4)").val();
+				if (!exName) {
+					layer.close(windowId);
+					layer.tips("姓名不能为空", "#exName",
+							{tipsMore: true, tips: 1, time: 3000});
+				} else if (!exPhone) {
+					layer.close(windowId);
+					layer.tips("手机号码不能为空", "#exPhone1",
+							{tipsMore: true, tips: 1, time: 3000});
+				} else if (!phone_regex.test(exPhone)) {
+					layer.close(windowId);
+					layer.tips("请输入正确的手机号码", "#exPhone1",
+							{tipsMore: true, tips: 1, time: 3000});
+				} else if (!idCard) {
+					layer.close(windowId);
+					layer.tips("身份证号码不能为空", "#idCard",
+							{tipsMore: true, tips: 1, time: 3000});
+				} else if (!idCard_regex.test(idCard)) {
+					layer.close(windowId);
+					layer.tips("请输入正确格式的身份证号，要求：18位，注意出生年月日。", "#idCard",
+							{tipsMore: true, tips: 1, time: 5000});
+				} else if (!exPassword) {
+					layer.close(windowId);
+					layer.tips("密码不能为空", "#exPassWord",
+							{tipsMore: true, tips: 1, time: 3000});
+				} else if (!pwd_regex.test(exPassword)) {
+					layer.close(windowId);
+					layer.tips("要求：以字母开头，长度在6~18之间，只能包含字母、数字和下划线!",
+							"#exPassWord", {tipsMore: true, tips: 1, time: 10000});
+				} else {
+					var courier = {
+						id:exId,
+						exName:exName,
+						exPhone:exPhone,
+						idCard:idCard,
+						exPassword:exPassword,
+					};
+					$.getJSON("/courier/update.do",courier,function(data){
+						layer.close(windowId);
+						layer.msg(data.result);
+						if(data.status == 0){
+							//修改成功
+							$("input:eq(0)").val("");
+							$(".header:eq(1),.content:eq(1)").hide();
+						}
+					});
+				}
+
+			});
+
+			// 重置按钮，清除所填表单中的所有信息
+			$("#reset").click(function(){
+				$("input:eq(1)").val("");
+				$("input:eq(2)").val("");
+				$("input:eq(3)").val("");
+				$("input:eq(4)").val("");
+			});
+		});
+	</script>
+</html>

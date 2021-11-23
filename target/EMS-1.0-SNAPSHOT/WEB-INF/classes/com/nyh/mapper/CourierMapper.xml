@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nyh.mapper.CourierMapper">
+  <resultMap id="BaseResultMap" type="com.nyh.pojo.Courier">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="exname" jdbcType="VARCHAR" property="exname" />
+    <result column="exphone" jdbcType="VARCHAR" property="exphone" />
+    <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+    <result column="expassword" jdbcType="VARCHAR" property="expassword" />
+    <result column="trannumber" jdbcType="VARCHAR" property="trannumber" />
+    <result column="regtime" jdbcType="TIMESTAMP" property="regtime" />
+    <result column="prelogtime" jdbcType="TIMESTAMP" property="prelogtime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, exname, exphone, idcard, expassword, trannumber, regtime, prelogtime
+  </sql>
+  <select id="selectByExample" parameterType="com.nyh.pojo.CourierExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from courier
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from courier
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from courier
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nyh.pojo.CourierExample">
+    delete from courier
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nyh.pojo.Courier">
+    insert into courier (id, exname, exphone, 
+      idcard, expassword, trannumber, 
+      regtime, prelogtime)
+    values (#{id,jdbcType=INTEGER}, #{exname,jdbcType=VARCHAR}, #{exphone,jdbcType=VARCHAR}, 
+      #{idcard,jdbcType=VARCHAR}, #{expassword,jdbcType=VARCHAR}, #{trannumber,jdbcType=VARCHAR}, 
+      #{regtime,jdbcType=TIMESTAMP}, #{prelogtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nyh.pojo.Courier">
+    insert into courier
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="exname != null">
+        exname,
+      </if>
+      <if test="exphone != null">
+        exphone,
+      </if>
+      <if test="idcard != null">
+        idcard,
+      </if>
+      <if test="expassword != null">
+        expassword,
+      </if>
+      <if test="trannumber != null">
+        trannumber,
+      </if>
+      <if test="regtime != null">
+        regtime,
+      </if>
+      <if test="prelogtime != null">
+        prelogtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="exname != null">
+        #{exname,jdbcType=VARCHAR},
+      </if>
+      <if test="exphone != null">
+        #{exphone,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="expassword != null">
+        #{expassword,jdbcType=VARCHAR},
+      </if>
+      <if test="trannumber != null">
+        #{trannumber,jdbcType=VARCHAR},
+      </if>
+      <if test="regtime != null">
+        #{regtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prelogtime != null">
+        #{prelogtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nyh.pojo.CourierExample" resultType="java.lang.Long">
+    select count(*) from courier
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByLimit" resultType="com.nyh.pojo.Courier">
+    select * from courier limit ${offset},${pageNumber}
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update courier
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.exname != null">
+        exname = #{record.exname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.exphone != null">
+        exphone = #{record.exphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcard != null">
+        idcard = #{record.idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expassword != null">
+        expassword = #{record.expassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trannumber != null">
+        trannumber = #{record.trannumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.regtime != null">
+        regtime = #{record.regtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.prelogtime != null">
+        prelogtime = #{record.prelogtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update courier
+    set id = #{record.id,jdbcType=INTEGER},
+      exname = #{record.exname,jdbcType=VARCHAR},
+      exphone = #{record.exphone,jdbcType=VARCHAR},
+      idcard = #{record.idcard,jdbcType=VARCHAR},
+      expassword = #{record.expassword,jdbcType=VARCHAR},
+      trannumber = #{record.trannumber,jdbcType=VARCHAR},
+      regtime = #{record.regtime,jdbcType=TIMESTAMP},
+      prelogtime = #{record.prelogtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nyh.pojo.Courier">
+    update courier
+    <set>
+      <if test="exname != null">
+        exname = #{exname,jdbcType=VARCHAR},
+      </if>
+      <if test="exphone != null">
+        exphone = #{exphone,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        idcard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="expassword != null">
+        expassword = #{expassword,jdbcType=VARCHAR},
+      </if>
+      <if test="trannumber != null">
+        trannumber = #{trannumber,jdbcType=VARCHAR},
+      </if>
+      <if test="regtime != null">
+        regtime = #{regtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prelogtime != null">
+        prelogtime = #{prelogtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nyh.pojo.Courier">
+    update courier
+    set exname = #{exname,jdbcType=VARCHAR},
+      exphone = #{exphone,jdbcType=VARCHAR},
+      idcard = #{idcard,jdbcType=VARCHAR},
+      expassword = #{expassword,jdbcType=VARCHAR},
+      trannumber = #{trannumber,jdbcType=VARCHAR},
+      regtime = #{regtime,jdbcType=TIMESTAMP},
+      prelogtime = #{prelogtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

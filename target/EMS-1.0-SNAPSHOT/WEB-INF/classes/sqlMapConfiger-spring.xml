@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--配置日志-->
+    <settings>
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
+
+    <!--定义别名-->
+<!--    <typeAliases>-->
+<!--        &lt;!&ndash;两种方式：方式一&ndash;&gt;-->
+<!--        &lt;!&ndash;<typeAlias type="com.nyh.pojo.Account" alias="account"/>&ndash;&gt;-->
+<!--        &lt;!&ndash;方式二：扫包&ndash;&gt;-->
+<!--        <package name="com.nyh.pojo"/>-->
+<!--    </typeAliases>-->
+
+</configuration>

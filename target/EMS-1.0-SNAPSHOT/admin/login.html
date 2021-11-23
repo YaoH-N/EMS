@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="assets/css/layui.css">
+    <link rel="stylesheet" href="assets/css/login.css">
+    <script src="assets/layui.js"></script>
+    <script src="./js/index.js" data-main="login"></script>
+    <script src="./js/login.js" data-main="login"></script>
+    <link rel="icon" href="/favicon.ico">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <title>东风快递后台登录</title>
+</head>
+
+<body class="login-wrap">
+    <div class="header">
+        <ul>
+            <a href="login.html"><img src="assets/images/logo.png"></a>
+            <span class="logo">
+                东风快递
+             </span>
+            <li>简体中文（中国）</li>
+            <li>帮助</li>
+            <li>联系我们</li>
+            <a href="assets/images/qrcode_wx.jpg"><li>微信公众端</li></a>
+        </ul>
+    </div>
+    <div class="login-container">
+        <h3>东风快递后台登录</h3>
+        <form class="login-form" action="index.html">
+            <div class="input-group">
+                <input type="text" id="username" autocomplete="off" class="input-field">
+                <label for="username" class="input-label">
+                    <span class="label-title">用户名</span>
+                </label>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" class="input-field" autocomplete="off">
+                <label for="password" class="input-label">
+                    <span class="label-title">密码</span>
+                   <label class="eyes"><img src="./assets/images/闭眼.png" id="eyes" ></label>
+                </label>
+            </div>
+            <button type="button" class="login-button">登录<i class="ai ai-enter"></i></button>
+        </form>
+    </div>
+</body>
+<script>
+    //获取元素（两种方式都可以）
+    var input = document.getElementById('password');
+    var imgs = document.getElementById('eyes');
+    //下面是一个判断每次点击的效果
+    var flag = 0;
+    imgs.onclick = function() {
+        if (flag == 0) {
+            input.type = 'text';
+            imgs.src = './assets/images/睁眼.png'; //睁眼图
+            flag = 1;
+        } else {
+            input.type = 'password';
+            imgs.src = './assets/images/闭眼.png'; //闭眼图
+            flag = 0;
+        }
+    }
+</script>
+<script src="../qrcode/jquery2.1.4.js"></script>
+<script src="../layer/layer.js"></script>
+<script>
+    $(function() {
+        $(".login-button").click(function() {
+            var username = $("#username").val();
+            var password = $("#password").val();
+
+            //1.     先转圈，先试用layer，弹出load("提示加载中....")
+            var windowId = layer.load();
+            //2.     ajax与服务器交互
+            $.post("/admin/login.do", {
+                username: username,
+                password: password
+            }, function(data) {
+                //3.     关闭load窗口
+                layer.close(windowId);
+                //4.     将服务器回复的结果进行显示
+                layer.msg(data.result);
+                console.log(data.status)
+                if (data.status == 0) {
+                    // 跳转到主页
+                    location.assign("index.html");
+                    sessionStorage.setItem("loginName", username);
+                }
+                //
+            }, "JSON");
+
+        });
+    });
+</script>
+
+</html>

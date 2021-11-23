@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/add.css"/>
+	</head>
+	<body>
+		<div id="app">
+			<div class="header">
+				<span>删除快递员</span>
+			</div>
+			<div class="content">
+				<table>	
+					<tr>
+						<td class="text-right">手机号码</td><td class="content_right"><input id="exPhone" autocomplete="off" class="input inline-input" placeholder="请输入手机号码"> <span class="btn btn-info" id="find">立即查找</span></td>
+					</tr>
+				</table>
+			</div>
+			
+			
+			<div class="header">
+				<span>查找信息如下</span>
+			</div>
+			<div class="content">
+				<table>
+					<tr>
+						<td class="text-right">姓名</td><td class="content_right"><input class="input" placeholder="请输入姓名" disabled></td>
+					</tr>
+					<tr>
+						<td class="text-right">手机号码</td><td class="content_right"><input class="input" type="tel" placeholder="请输入手机号码" disabled></td>
+					</tr>
+					<tr>
+						<td class="text-right">身份证号码</td><td class="content_right"><input class="input" placeholder="请输入身份证号码" disabled></td>
+					</tr>
+					<tr>
+						<td class="text-right">密码</td><td class="content_right"><input class="input" type="text" placeholder="请输入密码" disabled></td>
+					</tr>
+					<tr>
+						<td></td><td class="content_right"><span class="btn btn-info" id="delete">立即删除</span></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</body>
+	<script src="../../../qrcode/jquery2.1.4.js"></script>
+	<script src="/layer/layer.js"></script>
+	<script>
+		//隐藏查找信息如下的界面内容
+		$(".header:eq(1),.content:eq(1)").hide();
+		var exId = null; // 存放查找出来的快递员id
+		$(function () {
+			$("#find").click(function () {
+				var windowId = layer.load();
+				var exPhone = $("#exPhone").val();
+				$.getJSON("/courier/find.do", {exPhone: exPhone}, function (data) {
+					layer.close(windowId);
+					//data=:{"status":0,"result":"查询成功","data":{"id":2,"number":"124","username":"李四","userPhone":"15201012257","company":"京东快递","code":"12366","inTime":"Jul 29, 2021 11:01:31 PM","status":0,"sysPhone":"18888888888"}}
+					layer.msg(data.result);
+					if (data.status == 0) {
+						$(".header:eq(1),.content:eq(1)").fadeIn(1000);
+						exId = data.data.id;
+						// g_exPhone=data.data.userPhone;
+						$("input:eq(1)").val(data.data.exname);
+						$("input:eq(2)").val(data.data.exphone);
+						$("input:eq(3)").val(data.data.idcard);
+						$("input:eq(4)").val(data.data.expassword);
+					}
+				});
+			});
+
+			$("#delete").click(function(){
+				var windowId = layer.load();
+				$.getJSON("/courier/delete.do",{id:exId},function(data){
+					layer.close(windowId);
+					layer.msg(data.result);
+					if(data.status == 0){
+						$("input:eq(0)").val("");
+						$(".header:eq(1),.content:eq(1)").hide();
+					}
+				});
+			});
+
+		});
+	</script>
+</html>
